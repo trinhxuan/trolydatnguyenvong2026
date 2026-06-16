@@ -1,32 +1,35 @@
-# Trợ Lý Nguyện Vọng 2026 — bản đã sửa lỗi
+# Trợ Lý Nguyện Vọng 2026 – HSA 2026 A00 Percentile Simulation
 
-Ứng dụng HTML tĩnh đã được rà soát và đóng gói lại để chạy trực tiếp trên GitHub Pages.
+Bản cập nhật này bổ sung bảng **HSA 2026 nhóm Khoa học Q01–Q10 (N = 41.235)** và mô-đun quy đổi **HSA → A00 năm 2026 mô phỏng** theo bách phân vị.
 
-## File chính
+## Luồng quy đổi 2026
 
-- `index.html`: file chạy chính của GitHub Pages, phải nằm ở thư mục gốc repository.
-- `Tro_Ly_Nguyen_Vong_2026.html`: bản HTML cùng nội dung, giữ để mở trực tiếp nếu cần.
-- `.nojekyll`: giúp GitHub Pages phục vụ file tĩnh trực tiếp.
-- `.gitignore`: bỏ qua file tạm của hệ điều hành/trình soạn thảo.
+```text
+Điểm HSA 2026 nhóm Khoa học Q01–Q10
+→ tra phân vị (%) và top (%) trong bảng HSA 2026
+→ đối sánh phổ điểm 2025 khối A00 rồi mô phỏng A00 2026 và các thanh điều chỉnh
+→ tìm điểm A00 2026 có cùng top (%)
+→ nội suy tuyến tính trong khoảng điểm THPT
+```
 
-## Các lỗi đã sửa
+## Dữ liệu giữ nguyên
 
-- Chống trắng trang khi Chart.js CDN tải chậm hoặc bị chặn.
-- Bổ sung CSS fallback cho lớp `hidden`, giúp tab không bị bung toàn bộ khi Tailwind chưa tải kịp.
-- Bổ sung các hàm đọc/ghi DOM an toàn để tránh lỗi khi một vùng giao diện bị thiếu hoặc bị đổi tên.
-- Bọc các bước khởi tạo quan trọng bằng cơ chế chống crash.
-- Đóng gói lại theo chuẩn GitHub Pages: các file nằm ngay ở thư mục gốc, không bị lồng thêm thư mục con.
+- Bảng ĐHQGHN 2024 chính thức: A00, B00, C00, D01, A01 và HSA Toán → THPT Toán.
+- Bảng ĐHQGHN 2025 chính thức: A00, B00, C00, D01.
+- Chế độ 2026 là mô phỏng, dùng cho tham khảo chiến thuật đến khi có phổ THPT 2026 chính thức.
 
-## Cách đưa lên GitHub Pages
+Không sử dụng công thức tuyến tính sai `HSA × 30 / 150`.
 
-1. Tạo repository mới trên GitHub.
-2. Giải nén file ZIP này.
-3. Upload toàn bộ file bên trong thư mục giải nén lên thẳng thư mục gốc của repository, không upload cả thư mục mẹ.
-4. Vào **Settings → Pages**.
-5. Chọn **Deploy from a branch**.
-6. Chọn nhánh `main`, thư mục `/root`, rồi bấm **Save**.
-7. Mở đường dẫn GitHub Pages do GitHub cung cấp.
 
-## Kiểm tra nhanh
+## Cập nhật nhãn mô phỏng ĐHQGHN
 
-Mở `index.html` trên trình duyệt. Nếu internet bị chặn CDN, giao diện có thể thiếu một số hiệu ứng/biểu đồ, nhưng ứng dụng không bị trắng trang.
+Mục “A00 2026 MÔ PHỎNG THEO PHÂN VỊ” đã được đổi thành “Cập nhật kiểu ĐHQGHN • Bách phân vị + nội suy”. Mô tả hiển thị: ứng dụng dùng bảng quy đổi chính thức ĐHQGHN 2026 và phổ điểm 2025 khối A00 theo 2 bảng số liệu người dùng cung cấp; điểm không trùng mốc được nội suy tuyến tính giữa hai dòng liền kề.
+
+## Cập nhật Bộ Giả Lập A00 2026
+
+Mục **“Bộ Giả Lập Phổ Điểm THPT A00 Dự Kiến 2026”** đã được code lại để lấy nền từ:
+
+1. Bảng thứ hạng phần trăm HSA 2026 lựa chọn phần thi Khoa học Q01–Q10.
+2. Phổ điểm thi tốt nghiệp THPT khối A00 năm 2025 theo biểu đồ người dùng cung cấp.
+
+Ứng dụng tạo bảng neo HSA → A00 theo nguyên tắc cùng top %, sau đó cho phép hiệu chỉnh kịch bản A00 2026 theo các vùng Top 1%, Top 5%, Top 10% và Top 20%.

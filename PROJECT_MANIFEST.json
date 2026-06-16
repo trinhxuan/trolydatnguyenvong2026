@@ -1,25 +1,21 @@
 {
-  "project": "Tro_Ly_Nguyen_Vong_2026_Fixed_GitHub_Pages",
-  "fixed_at": "2026-06-16",
-  "entrypoint": "index.html",
-  "code_integrity": {
-    "index_html_sha256": "4c10e58d93c8bc35bb6208a7350a8b811b6d52a2fca5a0a55d4bfd6adba6d938",
-    "original_html_copy_sha256": "4c10e58d93c8bc35bb6208a7350a8b811b6d52a2fca5a0a55d4bfd6adba6d938",
-    "index_and_copy_identical": true
-  },
-  "fixes": [
-    "Runtime safety helpers for DOM reads/writes",
-    "Chart.js unavailable guard",
-    "Tailwind hidden fallback CSS",
-    "Safe initialization wrappers",
-    "Flattened GitHub Pages package structure"
-  ],
+  "project": "Tro_Ly_Nguyen_Vong_2026",
+  "update": "A00 2026 simulator recoded from HSA 2026 Q01-Q10 percentile table and A00 2025 distribution chart",
+  "entry": "index.html",
   "files": [
-    ".gitignore",
-    ".nojekyll",
-    "README.md",
+    "index.html",
     "Tro_Ly_Nguyen_Vong_2026.html",
+    ".nojekyll",
+    ".gitignore",
+    "README.md",
     "VALIDATION_REPORT.md",
-    "index.html"
-  ]
+    "PROJECT_MANIFEST.json"
+  ],
+  "validation": {
+    "hsa98_a00_2026_default": 25.93,
+    "hsa100_a00_2026_default": 26.41,
+    "hsa110_a00_2026_default": 28.13,
+    "hsa112_a00_2026_default": 28.51
+  },
+  "generated_at": "2026-06-16"
 }
