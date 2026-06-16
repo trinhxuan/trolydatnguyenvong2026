@@ -1,0 +1,17 @@
+{
+  "project": "Tro_Ly_Nguyen_Vong_2026_GitHub_Ready",
+  "generated_at": "2026-06-16T06:19:10",
+  "code_integrity": {
+    "source_file": "Tro_Ly_Nguyen_Vong_2026.html",
+    "index_html_sha256": "e5331f28d91c0d3fd248ed914be24ee4c13be020c3b3b39d7394646b4383661c",
+    "original_html_sha256": "e5331f28d91c0d3fd248ed914be24ee4c13be020c3b3b39d7394646b4383661c",
+    "unchanged": true
+  },
+  "files": [
+    ".gitignore",
+    ".nojekyll",
+    "README.md",
+    "Tro_Ly_Nguyen_Vong_2026.html",
+    "index.html"
+  ]
+}
