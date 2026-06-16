@@ -202,6 +202,36 @@
             font-weight: 800;
             letter-spacing: 0.04em;
         }
+
+        .hsa-converted-card {
+            background: linear-gradient(135deg, rgba(220, 252, 231, 0.98) 0%, rgba(254, 249, 195, 0.92) 100%) !important;
+            border: 1px solid rgba(34, 197, 94, 0.42) !important;
+            box-shadow: 0 12px 30px rgba(22, 163, 74, 0.13), inset 0 1px 0 rgba(255, 255, 255, 0.86);
+        }
+        .hsa-converted-card .hsa-result-main {
+            color: #047857 !important;
+            letter-spacing: -0.035em;
+        }
+        .hsa-converted-card .hsa-card-title {
+            color: #065f46 !important;
+        }
+        .hsa-converted-card .hsa-card-subtitle {
+            color: #475569 !important;
+        }
+        .hsa-converted-card .hsa-card-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            margin-top: 0.55rem;
+            padding: 0.22rem 0.5rem;
+            border-radius: 999px;
+            background: rgba(255,255,255,0.72);
+            border: 1px solid rgba(34, 197, 94, 0.24);
+            color: #0f766e;
+            font-size: 0.66rem;
+            font-weight: 800;
+        }
+
         @media (max-width: 640px) {
             header .max-w-7xl { align-items: stretch; }
             header h1 { font-size: 1rem; line-height: 1.25rem; }
@@ -603,12 +633,16 @@
                     <!-- Mapped score outputs and charts -->
                     <div class="lg:col-span-8 space-y-4">
                         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                            <!-- prediction 2026 -->
-                            <div class="p-4 rounded-xl bg-indigo-500/10 border border-indigo-500/20">
-                                <span class="text-[10px] text-slate-400 font-bold block uppercase">A00 2026 MÔ PHỎNG THEO PHÂN VỊ</span>
-                                <div class="text-2xl font-black text-white mt-1">
-                                    <span id="map-score-2026">24.55</span> <span class="text-xs text-slate-500 font-medium">điểm</span>
+                            <!-- HSA converted to 30-point scale by VNU percentile method -->
+                            <div class="p-4 rounded-xl hsa-converted-card">
+                                <span class="text-[10px] font-bold block uppercase hsa-card-title">HSA QUY ĐỔI THANG 30 ĐHQGHN</span>
+                                <div class="text-3xl font-black mt-1 hsa-result-main">
+                                    <span id="map-score-2026">24.55</span> <span class="text-xs font-semibold hsa-card-subtitle">điểm</span>
                                 </div>
+                                <p class="mt-1.5 text-[11px] leading-relaxed hsa-card-subtitle">
+                                    HSA <strong id="hsa-card-source-score">98</strong> → A00 2026 mô phỏng theo bách phân vị, top <strong id="hsa-card-top">8.05%</strong>.
+                                </p>
+                                <span class="hsa-card-pill">☘️ Bách phân vị + nội suy ĐHQGHN</span>
                             </div>
                             <!-- 2025 output -->
                             <div class="p-4 rounded-xl bg-slate-900/60 border border-slate-800">
@@ -1914,6 +1948,8 @@
             const activeBundle = currentThptBaseYear === 2026 ? simulated2026Bundle : (currentThptBaseYear === 2025 ? official2025Bundle : reference2024Bundle);
 
             setText('map-score-2026', map2026.toFixed(2));
+            setText('hsa-card-source-score', hsa.toFixed(hsa % 1 === 0 ? 0 : 1));
+            setText('hsa-card-top', `${pct2026.top.toFixed(2)}%`);
             setText('map-score-2025', map2025.toFixed(2));
             setText('map-score-2024', map2024.toFixed(2));
             setText('equiv-a00', formatEquivalentScore(activeBundle.A00));
