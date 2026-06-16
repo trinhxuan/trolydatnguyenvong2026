@@ -1,0 +1,22 @@
+{
+  "name": "Trợ Lý Chiến Thuật Nguyện Vọng Đại Học 2026",
+  "short_name": "HSA A00 2026",
+  "description": "Quy đổi HSA sang thang 30 và mô phỏng A00 2026 theo bách phân vị ĐHQGHN.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#f0fdf4",
+  "theme_color": "#22c55e",
+  "icons": [
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ]
+}

@@ -33,3 +33,10 @@ Mục **“Bộ Giả Lập Phổ Điểm THPT A00 Dự Kiến 2026”** đã đ
 2. Phổ điểm thi tốt nghiệp THPT khối A00 năm 2025 theo biểu đồ người dùng cung cấp.
 
 Ứng dụng tạo bảng neo HSA → A00 theo nguyên tắc cùng top %, sau đó cho phép hiệu chỉnh kịch bản A00 2026 theo các vùng Top 1%, Top 5%, Top 10% và Top 20%.
+
+
+## Cập nhật giao diện sáng Hy vọng & May mắn
+- Chuyển toàn bộ nền tối sang tông sáng: xanh hy vọng, vàng may mắn, trắng/mint dễ đọc trên điện thoại.
+- Thêm favicon, icon 512x512, apple-touch-icon và ảnh chia sẻ `og-image.png`.
+- Thêm `site.webmanifest`, `theme-color`, Open Graph và Twitter Card để khi chia sẻ/lưu ra màn hình điện thoại có biểu tượng riêng.
+- Không thay đổi thuật toán quy đổi điểm; chỉ cập nhật giao diện và tài nguyên nhận diện.

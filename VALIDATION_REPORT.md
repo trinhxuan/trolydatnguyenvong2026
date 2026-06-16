@@ -103,3 +103,9 @@ Bảng thứ hạng phần trăm HSA 2026 Q01–Q10
 | 95 | 89.85% | 11.31% | 25.22 |
 
 Các giá trị trên thay đổi nếu người dùng kéo các thanh giả lập kịch bản 2026.
+
+
+## Kiểm tra giao diện sáng
+- Đã giữ nguyên các hàm tính toán HSA/A00, chỉ cập nhật CSS, meta chia sẻ và bộ icon.
+- Đã thêm `favicon.svg`, `icon-512.png`, `apple-touch-icon.png`, `og-image.png`, `site.webmanifest`.
+- Đã kiểm tra file `index.html` và `Tro_Ly_Nguyen_Vong_2026.html` có cùng nội dung sau cập nhật.

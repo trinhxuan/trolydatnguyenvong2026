@@ -4,6 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Trợ Lý Chiến Thuật Nguyện Vọng Đại Học 2026 - Khối A00 & HSA</title>
+    <meta name="description" content="Trợ lý nguyện vọng 2026: quy đổi HSA sang thang 30 và mô phỏng A00 theo bách phân vị ĐHQGHN, giao diện sáng hy vọng và may mắn.">
+    <meta name="theme-color" content="#22c55e">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="HSA A00 2026">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Trợ Lý Nguyện Vọng 2026 • HSA ↔ A00">
+    <meta property="og:description" content="Quy đổi và mô phỏng điểm theo bách phân vị ĐHQGHN với giao diện sáng: hy vọng, may mắn, tự tin chọn nguyện vọng.">
+    <meta property="og:image" content="og-image.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Trợ Lý Nguyện Vọng 2026 • HSA ↔ A00">
+    <meta name="twitter:description" content="Bách phân vị ĐHQGHN, mô phỏng A00 2026, giao diện sáng hy vọng và may mắn.">
+    <meta name="twitter:image" content="og-image.png">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+    <link rel="manifest" href="site.webmanifest">
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Chart.js for beautiful analytics -->
@@ -27,28 +44,44 @@
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
     <style>
+        :root {
+            --hope-green: #16a34a;
+            --hope-mint: #bbf7d0;
+            --hope-light: #f0fdf4;
+            --luck-gold: #fbbf24;
+            --luck-amber: #fef3c7;
+            --sky-blue: #0284c7;
+            --ink: #064e3b;
+            --muted: #475569;
+        }
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
-            background-color: #030712;
-            color: #f3f4f6;
+            background:
+                radial-gradient(circle at 8% 0%, rgba(250, 204, 21, 0.22), transparent 32%),
+                radial-gradient(circle at 95% 8%, rgba(34, 197, 94, 0.22), transparent 34%),
+                linear-gradient(180deg, #f8fffb 0%, #f0fdf4 45%, #ecfeff 100%);
+            color: var(--ink);
         }
         .glass-panel {
-            background: rgba(17, 24, 39, 0.7);
-            backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.82);
+            backdrop-filter: blur(18px);
+            border: 1px solid rgba(34, 197, 94, 0.22);
+            box-shadow: 0 18px 50px rgba(22, 163, 74, 0.11);
         }
         .active-tab {
-            background: linear-gradient(135deg, rgba(99, 102, 241, 0.2) 0%, rgba(168, 85, 247, 0.2) 100%);
-            border-color: #6366f1;
-            color: #e0e7ff;
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.16) 0%, rgba(251, 191, 36, 0.20) 100%);
+            border-color: #22c55e;
+            color: #065f46 !important;
+            box-shadow: 0 8px 22px rgba(34, 197, 94, 0.16);
         }
         .gradient-btn {
-            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
-            box-shadow: 0 4px 14px rgba(99, 102, 241, 0.3);
+            background: linear-gradient(135deg, #22c55e 0%, #84cc16 45%, #fbbf24 100%);
+            color: #052e16 !important;
+            box-shadow: 0 8px 22px rgba(34, 197, 94, 0.24);
             transition: all 0.3s ease;
         }
         .gradient-btn:hover {
-            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.5);
+            box-shadow: 0 12px 28px rgba(34, 197, 94, 0.33);
             transform: translateY(-1px);
         }
         .no-scrollbar::-webkit-scrollbar {
@@ -70,6 +103,110 @@
             color: #cbd5e1;
             font-size: 0.8rem;
         }
+
+
+        /* Giao diện sáng: Hy vọng & May mắn */
+        [class~="bg-slate-950/80"], [class~="bg-slate-950/60"], [class~="bg-slate-950/50"],
+        [class~="bg-slate-950/45"], [class~="bg-slate-950/40"], [class~="bg-slate-950/35"],
+        [class~="bg-slate-950/25"], [class~="bg-slate-950"],
+        [class~="bg-slate-900/90"], [class~="bg-slate-900/60"], [class~="bg-slate-900/50"],
+        [class~="bg-slate-900/40"], [class~="bg-slate-900"], [class~="bg-slate-800"] {
+            background-color: rgba(255, 255, 255, 0.86) !important;
+        }
+        [class~="bg-indigo-500/10"], [class~="bg-indigo-950/20"] {
+            background: linear-gradient(135deg, rgba(220, 252, 231, 0.95), rgba(254, 249, 195, 0.72)) !important;
+        }
+        [class~="bg-emerald-950/20"], [class~="bg-emerald-500/10"] {
+            background: linear-gradient(135deg, rgba(236, 253, 245, 0.96), rgba(240, 253, 250, 0.92)) !important;
+        }
+        [class~="bg-rose-500/10"] {
+            background: rgba(255, 247, 237, 0.96) !important;
+        }
+        [class~="bg-indigo-500"], [class~="bg-indigo-400"], [class~="bg-emerald-500"] {
+            background-color: #22c55e !important;
+        }
+        [class~="bg-purple-500"] {
+            background-color: #fbbf24 !important;
+        }
+        [class~="border-slate-800"], [class~="border-slate-900"], [class~="divide-slate-900"] {
+            border-color: rgba(34, 197, 94, 0.22) !important;
+        }
+        [class~="border-indigo-500/30"], [class~="border-indigo-500/20"], [class~="border-indigo-500/15"], [class~="border-indigo-500/10"],
+        [class~="border-emerald-500/20"], [class~="border-emerald-500/15"], [class~="border-rose-500/20"], [class~="border-rose-500/30"] {
+            border-color: rgba(34, 197, 94, 0.32) !important;
+        }
+        [class~="text-white"], [class~="text-slate-100"], [class~="text-slate-200"] {
+            color: #064e3b !important;
+        }
+        [class~="text-slate-300"] {
+            color: #0f766e !important;
+        }
+        [class~="text-slate-400"] {
+            color: #475569 !important;
+        }
+        [class~="text-slate-500"], [class~="text-slate-600"] {
+            color: #64748b !important;
+        }
+        [class~="text-indigo-400"], [class~="text-indigo-300"], [class~="text-indigo-500"] {
+            color: #059669 !important;
+        }
+        [class~="text-purple-300"] {
+            color: #a16207 !important;
+        }
+        [class~="text-emerald-400"] {
+            color: #15803d !important;
+        }
+        [class~="text-rose-400"] {
+            color: #ea580c !important;
+        }
+        [class~="text-amber-400"] {
+            color: #b45309 !important;
+        }
+        [class~="hover:text-slate-200"]:hover, [class~="hover:text-slate-400"]:hover {
+            color: #047857 !important;
+        }
+        input, select, textarea {
+            background: rgba(255, 255, 255, 0.95) !important;
+            color: #064e3b !important;
+            border-color: rgba(34, 197, 94, 0.30) !important;
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.7);
+        }
+        input:focus, select:focus, textarea:focus {
+            border-color: #22c55e !important;
+            box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.18) !important;
+            outline: none !important;
+        }
+        input[type="range"] {
+            accent-color: #22c55e;
+            background: linear-gradient(90deg, #bbf7d0, #fde68a) !important;
+        }
+        thead, [class~="sticky"][class~="top-0"] {
+            background: #f0fdf4 !important;
+            color: #0f766e !important;
+        }
+        .app-fallback-note {
+            border-color: rgba(34, 197, 94, 0.35);
+            background: rgba(240, 253, 244, 0.92);
+            color: #065f46;
+        }
+        .luck-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            padding: 0.25rem 0.55rem;
+            border-radius: 999px;
+            background: linear-gradient(135deg, #dcfce7, #fef3c7);
+            border: 1px solid rgba(34, 197, 94, 0.28);
+            color: #065f46;
+            font-size: 0.68rem;
+            font-weight: 800;
+            letter-spacing: 0.04em;
+        }
+        @media (max-width: 640px) {
+            header .max-w-7xl { align-items: stretch; }
+            header h1 { font-size: 1rem; line-height: 1.25rem; }
+            .glass-panel { box-shadow: 0 10px 32px rgba(22, 163, 74, 0.10); }
+        }
     </style>
 </head>
 <body class="min-h-screen antialiased flex flex-col justify-between">
@@ -78,8 +215,9 @@
         <div class="max-w-7xl mx-auto px-4 py-4 flex flex-col lg:flex-row items-center justify-between gap-4">
             <div class="flex items-center gap-3">
                 <div class="p-2.5 bg-indigo-500/10 rounded-xl border border-indigo-500/30">
-                    <svg class="w-6 h-6 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.247 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                    <svg class="w-6 h-6 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-label="Biểu tượng hy vọng và may mắn">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 7.6C12 5.4 10.25 3.5 8.15 3.5S4.3 5.25 4.3 7.35c0 1.55.9 2.8 2.25 3.38C5.18 11.28 4.2 12.55 4.2 14.2c0 2.15 1.78 3.85 3.95 3.85 1.74 0 3.16-1.08 3.85-2.55.69 1.47 2.11 2.55 3.85 2.55 2.17 0 3.95-1.7 3.95-3.85 0-1.65-.98-2.92-2.35-3.47 1.35-.58 2.25-1.83 2.25-3.38 0-2.1-1.75-3.85-3.85-3.85S12 5.4 12 7.6Z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 15.3v5.2M18.6 2.8l.45 1.05 1.05.45-1.05.45-.45 1.05-.45-1.05-1.05-.45 1.05-.45.45-1.05Z" />
                     </svg>
                 </div>
                 <div>
@@ -87,6 +225,7 @@
                         ADMISSIONS STRATEGIST <span class="text-indigo-400">2026</span>
                     </h1>
                     <p class="text-xs text-slate-400">Chiến thuật đặt nguyện vọng tối ưu bằng Tổ hợp A00 & Điểm ĐGNL HSA quy đổi</p>
+                    <div class="luck-badge mt-1">🍀 HY VỌNG • MAY MẮN</div>
                 </div>
             </div>
             
@@ -1846,11 +1985,11 @@
             const highlightIdx = chartDataset.findIndex(bin => targetScore >= bin.min && targetScore <= bin.max);
 
             const bgColors = dataCounts.map((val, idx) => {
-                return idx === highlightIdx ? 'rgba(99, 102, 241, 0.95)' : 'rgba(30, 41, 59, 0.4)';
+                return idx === highlightIdx ? 'rgba(34, 197, 94, 0.92)' : 'rgba(187, 247, 208, 0.72)';
             });
 
             const borderColors = dataCounts.map((val, idx) => {
-                return idx === highlightIdx ? '#6366f1' : '#334155';
+                return idx === highlightIdx ? '#16a34a' : '#86efac';
             });
 
             if (percentileChartInstance) {
@@ -1881,8 +2020,8 @@
                     maintainAspectRatio: false,
                     plugins: { legend: { display: false } },
                     scales: {
-                        x: { ticks: { color: '#64748b', font: { size: 9 } }, grid: { display: false } },
-                        y: { ticks: { color: '#64748b', font: { size: 9 } }, grid: { color: 'rgba(51, 65, 85, 0.12)' } }
+                        x: { ticks: { color: '#166534', font: { size: 9 } }, grid: { display: false } },
+                        y: { ticks: { color: '#166534', font: { size: 9 } }, grid: { color: 'rgba(34, 197, 94, 0.14)' } }
                     }
                 }
             });

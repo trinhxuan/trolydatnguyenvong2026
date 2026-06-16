@@ -17,5 +17,14 @@
     "hsa110_a00_2026_default": 28.13,
     "hsa112_a00_2026_default": 28.51
   },
-  "generated_at": "2026-06-16"
+  "generated_at": "2026-06-16",
+  "ui_theme": "bright_hope_luck",
+  "mobile_share_assets": [
+    "favicon.svg",
+    "icon-512.png",
+    "apple-touch-icon.png",
+    "og-image.png",
+    "site.webmanifest"
+  ],
+  "last_update_note": "Cập nhật giao diện sáng, icon chia sẻ điện thoại, Open Graph và manifest; không đổi thuật toán quy đổi."
 }
