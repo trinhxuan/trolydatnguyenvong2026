@@ -58,6 +58,18 @@
             -ms-overflow-style: none;
             scrollbar-width: none;
         }
+        /* Fallback an toàn nếu Tailwind/Chart CDN tải chậm hoặc bị chặn */
+        .hidden {
+            display: none !important;
+        }
+        .app-fallback-note {
+            padding: 0.75rem;
+            border-radius: 0.75rem;
+            border: 1px solid rgba(99, 102, 241, 0.35);
+            background: rgba(15, 23, 42, 0.85);
+            color: #cbd5e1;
+            font-size: 0.8rem;
+        }
     </style>
 </head>
 <body class="min-h-screen antialiased flex flex-col justify-between">
@@ -992,6 +1004,40 @@
         let percentileChartInstance = null;
         let selectedPreferences = [];
 
+        // --- RUNTIME SAFETY HELPERS: chống lỗi trắng trang khi thiếu DOM/CDN ---
+        function getEl(id) {
+            return document.getElementById(id);
+        }
+
+        function setText(id, value) {
+            const el = getEl(id);
+            if (el) el.textContent = value;
+        }
+
+        function getNumber(id, fallback = 0) {
+            const el = getEl(id);
+            if (!el) return fallback;
+            const value = parseFloat(el.value);
+            return Number.isFinite(value) ? value : fallback;
+        }
+
+        function getValue(id, fallback = "") {
+            const el = getEl(id);
+            return el ? el.value : fallback;
+        }
+
+        function runSafely(label, action) {
+            try {
+                return action();
+            } catch (error) {
+                console.error(`[Admissions Strategist] ${label}`, error);
+                if (typeof showToast === "function") {
+                    showToast("Đã chặn một lỗi hiển thị", "Ứng dụng vẫn tiếp tục chạy. Hãy tải lại trang nếu biểu đồ chưa hiện.", "🛠️");
+                }
+                return null;
+            }
+        }
+
         // Linear interpolation helper
         function lerp(x, x1, y1, x2, y2) {
             return y1 + ((x - x1) * (y2 - y1)) / (x2 - x1);
@@ -1122,15 +1168,15 @@
 
         function calculateUserScores() {
             // Raw inputs
-            const m = parseFloat(document.getElementById('score-math').value) || 0;
-            const p = parseFloat(document.getElementById('score-phy').value) || 0;
-            const c = document.getElementById('score-chem') ? parseFloat(document.getElementById('score-chem').value) || 0 : 0;
-            const hsa = parseFloat(document.getElementById('score-hsa').value) || 0;
-            const tsa = parseFloat(document.getElementById('score-tsa').value) || 0;
-            const ielts = parseFloat(document.getElementById('score-ielts').value) || 0;
+            const m = getNumber('score-math');
+            const p = getNumber('score-phy');
+            const c = getNumber('score-chem');
+            const hsa = getNumber('score-hsa');
+            const tsa = getNumber('score-tsa');
+            const ielts = getNumber('score-ielts');
 
-            const area = document.getElementById('profile-area').value;
-            const obj = document.getElementById('profile-object').value;
+            const area = getValue('profile-area', 'KV3');
+            const obj = getValue('profile-object', 'none');
 
             // Base priorities
             let basePri = 0;
@@ -1141,13 +1187,11 @@
             if (obj === "UT1") basePri += 2.00;
             if (obj === "UT2") basePri += 1.00;
 
-            document.getElementById('priority-base-txt').textContent = `${basePri.toFixed(2)} điểm`;
+            setText('priority-base-txt', `${basePri.toFixed(2)} điểm`);
 
             // Decay linear priorities
             const rawA00 = m + p + c;
-            if (document.getElementById('txt-raw-a00')) {
-                document.getElementById('txt-raw-a00').textContent = rawA00.toFixed(2);
-            }
+            setText('txt-raw-a00', rawA00.toFixed(2));
 
             function getMoetPriority(rawScoreSum) {
                 if (rawScoreSum < 22.5) return basePri;
@@ -1156,8 +1200,8 @@
             }
 
             const priA00 = getMoetPriority(rawA00);
-            document.getElementById('priority-final-txt').textContent = `${priA00.toFixed(2)} điểm`;
-            document.getElementById('priority-coef-txt').textContent = rawA00 >= 22.5 ? "Áp dụng tuyến tính" : "Nhận trọn vẹn";
+            setText('priority-final-txt', `${priA00.toFixed(2)} điểm`);
+            setText('priority-coef-txt', rawA00 >= 22.5 ? "Áp dụng tuyến tính" : "Nhận trọn vẹn");
 
             // VNU (QHT) Scores
             const qhtA00 = Math.min(30, rawA00 + priA00);
@@ -1194,8 +1238,8 @@
 
             // 3. XTTN Diện 1.2: Chứng chỉ quốc tế (SAT, ACT, A-Level...)
             let hustXttn12 = 0;
-            const certType = document.getElementById('xttn-12-type').value;
-            const certScore = parseFloat(document.getElementById('xttn-12-score').value) || 0;
+            const certType = getValue('xttn-12-type', 'none');
+            const certScore = getNumber('xttn-12-score');
             
             let dtnn = 0; // Điểm thưởng chứng chỉ ngoại ngữ (IELTS)
             if (ielts >= 7.0) dtnn = 5.0; // Thang 100
@@ -1233,10 +1277,12 @@
             
             // Điểm thành tích (Tối đa 50)
             let ptsThanhtich = 0;
-            if (document.getElementById('xttn-1.3-spec').checked) ptsThanhtich += 20;
-            if (document.getElementById('xttn-1.3-olympia').checked) ptsThanhtich += 30;
+            const specCheckbox = getEl('xttn-1.3-spec');
+            const olympiaCheckbox = getEl('xttn-1.3-olympia');
+            if (specCheckbox && specCheckbox.checked) ptsThanhtich += 20;
+            if (olympiaCheckbox && olympiaCheckbox.checked) ptsThanhtich += 30;
             
-            const highestHsg = document.getElementById('xttn-13-hsg').value;
+            const highestHsg = getValue('xttn-13-hsg', 'none');
             if (highestHsg === "nhat_qg") ptsThanhtich += 50;
             else if (highestHsg === "nhi_qg") ptsThanhtich += 45;
             else if (highestHsg === "ba_qg") ptsThanhtich += 40;
@@ -1255,21 +1301,18 @@
             const hustXttn13 = Math.min(100, hsnlBase + priA00 * (100 / 30));
 
             // Display synchronization
-            document.getElementById('calc-qht-a00').textContent = qhtA00.toFixed(2);
-            document.getElementById('calc-qht-hsa').textContent = qhtHsa.toFixed(2);
+            setText('calc-qht-a00', qhtA00.toFixed(2));
+            setText('calc-qht-hsa', qhtHsa.toFixed(2));
 
-            document.getElementById('calc-qhi-a00').textContent = qhiA00.toFixed(2);
-            document.getElementById('calc-qhi-hsa').textContent = qhiHsa.toFixed(2);
+            setText('calc-qhi-a00', qhiA00.toFixed(2));
+            setText('calc-qhi-hsa', qhiHsa.toFixed(2));
 
-            document.getElementById('calc-hust-a00').textContent = hustA00.toFixed(2);
-            document.getElementById('calc-hust-dgtd').textContent = hustDgtd.toFixed(2);
-            document.getElementById('calc-hust-xttn12').textContent = hustXttn12.toFixed(2);
-            document.getElementById('calc-hust-xttn13').textContent = hustXttn13.toFixed(2);
+            setText('calc-hust-a00', hustA00.toFixed(2));
+            setText('calc-hust-dgtd', hustDgtd.toFixed(2));
+            setText('calc-hust-xttn12', hustXttn12.toFixed(2));
+            setText('calc-hust-xttn13', hustXttn13.toFixed(2));
 
-            const lblHsaScore = document.getElementById('lbl-hsa-score');
-            if (lblHsaScore) {
-                lblHsaScore.textContent = hsa;
-            }
+            setText('lbl-hsa-score', hsa);
 
             // Define finalA00 and hsaConvertedFinal to resolve ReferenceErrors
             const finalA00 = Math.min(30, rawA00 + priA00);
@@ -1292,12 +1335,12 @@
             const hsa = parseFloat(hsaInput.value) || 0;
             const pct2026 = getHsaPercentile(hsa, hsaPercentile2026Table);
 
-            document.getElementById('hsa-pct-value').textContent = `${pct2026.percentile.toFixed(2)}%`;
-            document.getElementById('hsa-top-value').textContent = `Top ${pct2026.top.toFixed(2)}%`;
-            document.getElementById('hsa-beaten-txt').textContent = `${pct2026.percentile.toFixed(2)}%`;
+            setText('hsa-pct-value', `${pct2026.percentile.toFixed(2)}%`);
+            setText('hsa-top-value', `Top ${pct2026.top.toFixed(2)}%`);
+            setText('hsa-beaten-txt', `${pct2026.percentile.toFixed(2)}%`);
             
             const pos = Math.max(1, Math.round(pct2026.top));
-            document.getElementById('hsa-lineup-txt').textContent = pos;
+            setText('hsa-lineup-txt', pos);
 
             // Mapped scores
             const sim2026Distribution = getSimulated2026Distribution();
@@ -1305,9 +1348,9 @@
             const map2025 = calculatePercentileMatch(pct2026.top, thptA00_2025_Distribution, 165467);
             const map2024 = calculatePercentileMatch(pct2026.top, thptA00_2024_Distribution, 343813);
 
-            document.getElementById('map-score-2026').textContent = map2026.toFixed(2);
-            document.getElementById('map-score-2025').textContent = map2025.toFixed(2);
-            document.getElementById('map-score-2024').textContent = map2024.toFixed(2);
+            setText('map-score-2026', map2026.toFixed(2));
+            setText('map-score-2025', map2025.toFixed(2));
+            setText('map-score-2024', map2024.toFixed(2));
 
             // Also update score-calculated-2026-predicted if it exists!
             const scoreCalculated2026Predicted = document.getElementById('score-calculated-2026-predicted');
@@ -1381,6 +1424,10 @@
 
             const canvas = document.getElementById('chart-percentile-match');
             if (!canvas) return;
+            if (typeof Chart === 'undefined') {
+                console.warn('Chart.js chưa tải được, bỏ qua phần biểu đồ để ứng dụng không bị trắng trang.');
+                return;
+            }
             const ctx = canvas.getContext('2d');
             percentileChartInstance = new Chart(ctx, {
                 type: 'bar',
@@ -1458,8 +1505,8 @@
 
         // --- PROGRAM CATALOG RENDERING ---
         function filterPrograms() {
-            const school = document.getElementById('filter-school').value;
-            const search = document.getElementById('search-program').value.toLowerCase();
+            const school = getValue('filter-school', 'all');
+            const search = getValue('search-program', '').toLowerCase();
             const container = document.getElementById('program-catalog-container');
             
             if (!container) return;
@@ -1505,7 +1552,7 @@
                     if (dgtdMarg > maxMargin) { maxMargin = dgtdMarg; bestMethod = "ĐGTD"; bestScoreValue = userScores.hustDgtd; }
 
                     // XTTN 1.2
-                    if (document.getElementById('xttn-12-type').value !== "none") {
+                    if (getValue('xttn-12-type', 'none') !== "none") {
                         const xttn12Cutoff = p.cutoff12 || 55.0;
                         const xttn12Marg = ((userScores.hustXttn12 - xttn12Cutoff) / 100) * 100;
                         if (xttn12Marg > maxMargin) { maxMargin = xttn12Marg; bestMethod = "XTTN 1.2"; bestScoreValue = userScores.hustXttn12; }
@@ -1642,7 +1689,7 @@
                     if (dgtdMarg > maxMargin) maxMargin = dgtdMarg;
 
                     // XTTN 1.2
-                    if (document.getElementById('xttn-12-type').value !== "none") {
+                    if (getValue('xttn-12-type', 'none') !== "none") {
                         const xttn12Cutoff = p.cutoff12 || 55.0;
                         const xttn12Marg = ((userScores.hustXttn12 - xttn12Cutoff) / 100) * 100;
                         if (xttn12Marg > maxMargin) maxMargin = xttn12Marg;
@@ -1769,7 +1816,7 @@
                     const dgtdMarg = ((userScores.hustDgtd - dgtdCutoff) / 100) * 100;
                     if (dgtdMarg > maxMargin) maxMargin = dgtdMarg;
 
-                    if (document.getElementById('xttn-12-type').value !== "none") {
+                    if (getValue('xttn-12-type', 'none') !== "none") {
                         const xttn12Cutoff = p.cutoff12 || 55.0;
                         const xttn12Marg = ((userScores.hustXttn12 - xttn12Cutoff) / 100) * 100;
                         if (xttn12Marg > maxMargin) maxMargin = xttn12Marg;
@@ -1835,9 +1882,9 @@
         function showToast(title, message, icon) {
             const toast = document.getElementById('toast-notification');
             if (!toast) return;
-            document.getElementById('toast-title').textContent = title;
-            document.getElementById('toast-message').textContent = message;
-            document.getElementById('toast-icon').textContent = icon || "🔔";
+            setText('toast-title', title);
+            setText('toast-message', message);
+            setText('toast-icon', icon || "🔔");
             
             toast.classList.remove('translate-y-20', 'opacity-0', 'pointer-events-none');
             toast.classList.add('translate-y-0', 'opacity-100');
@@ -1922,20 +1969,20 @@
             const inputHsaScore = document.getElementById('score-hsa');
             if (inputHsaScore) {
                 inputHsaScore.addEventListener('input', () => {
-                    calculateUserScores();
-                    calculateHsaConversionPanel();
+                    runSafely('Cập nhật điểm nhập', () => calculateUserScores());
+                    runSafely('Cập nhật quy đổi HSA', () => calculateHsaConversionPanel());
                 });
             }
 
             const inputs = document.querySelectorAll('input[type="number"], select, input[type="checkbox"]');
             inputs.forEach(inp => {
                 inp.addEventListener('input', () => {
-                    calculateUserScores();
-                    calculateHsaConversionPanel();
+                    runSafely('Cập nhật điểm nhập', () => calculateUserScores());
+                    runSafely('Cập nhật quy đổi HSA', () => calculateHsaConversionPanel());
                     const tabStrategy = document.getElementById('tab-strategy');
                     if (tabStrategy && !tabStrategy.classList.contains('hidden')) {
-                        filterPrograms();
-                        renderPreferenceQueue();
+                        runSafely('Lọc danh mục ngành', () => filterPrograms());
+                        runSafely('Vẽ danh sách nguyện vọng', () => renderPreferenceQueue());
                     }
                 });
             });
@@ -1954,10 +2001,10 @@
             if (simTop20Input) simTop20Input.addEventListener('input', () => updateSimValue('top20'));
 
             // Initial setup and draw
-            calculateUserScores();
-            calculateHsaConversionPanel();
-            filterPrograms();
-            renderPreferenceQueue();
+            runSafely('Khởi tạo điểm xét tuyển', () => calculateUserScores());
+            runSafely('Khởi tạo quy đổi HSA', () => calculateHsaConversionPanel());
+            runSafely('Khởi tạo danh mục ngành', () => filterPrograms());
+            runSafely('Khởi tạo nguyện vọng', () => renderPreferenceQueue());
         }
     </script>
 </body>

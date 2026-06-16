@@ -1,17 +1,25 @@
 {
-  "project": "Tro_Ly_Nguyen_Vong_2026_GitHub_Ready",
-  "generated_at": "2026-06-16T06:19:10",
+  "project": "Tro_Ly_Nguyen_Vong_2026_Fixed_GitHub_Pages",
+  "fixed_at": "2026-06-16",
+  "entrypoint": "index.html",
   "code_integrity": {
-    "source_file": "Tro_Ly_Nguyen_Vong_2026.html",
-    "index_html_sha256": "e5331f28d91c0d3fd248ed914be24ee4c13be020c3b3b39d7394646b4383661c",
-    "original_html_sha256": "e5331f28d91c0d3fd248ed914be24ee4c13be020c3b3b39d7394646b4383661c",
-    "unchanged": true
+    "index_html_sha256": "4c10e58d93c8bc35bb6208a7350a8b811b6d52a2fca5a0a55d4bfd6adba6d938",
+    "original_html_copy_sha256": "4c10e58d93c8bc35bb6208a7350a8b811b6d52a2fca5a0a55d4bfd6adba6d938",
+    "index_and_copy_identical": true
   },
+  "fixes": [
+    "Runtime safety helpers for DOM reads/writes",
+    "Chart.js unavailable guard",
+    "Tailwind hidden fallback CSS",
+    "Safe initialization wrappers",
+    "Flattened GitHub Pages package structure"
+  ],
   "files": [
     ".gitignore",
     ".nojekyll",
     "README.md",
     "Tro_Ly_Nguyen_Vong_2026.html",
+    "VALIDATION_REPORT.md",
     "index.html"
   ]
 }
